@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { ChatInput, Message } from "./components";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap/all";
 
 type MessageType = {
   role: string;
@@ -25,6 +27,7 @@ function App() {
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [socketReady, setSocketReady] = useState(false);
   const chatRef = useRef<HTMLElement>(null);
+  const spanRef = useRef<HTMLSpanElement>(null);
   const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
@@ -97,6 +100,16 @@ function App() {
     );
   }
 
+  useGSAP(() => {
+    gsap.to(spanRef.current, {
+      color: "tomato",
+      scale: 1.15,
+      repeat: -1,
+      yoyo: true,
+      ease: "power1.inOut",
+    });
+  }, []);
+
   return (
     <div className="container">
       <header className="header">
@@ -121,12 +134,18 @@ function App() {
       </main>
 
       <footer className="inputbar">
-        <ChatInput onSend={handleSend} />
+        <ChatInput onSend={handleSend} socketReady={socketReady} />
         <div className="input-controls">
           <span>
             Press <kbd>Enter</kbd> to send • <kbd>Shift+Enter</kbd> for newline
           </span>
-          <span>{socketReady ? "Connected" : "Connecting..."}</span>
+          {socketReady ? (
+            <p style={{ display: "inline", margin: 0, padding: 0 }}>
+              Connected
+            </p>
+          ) : (
+            <span ref={spanRef}>Connecting...</span>
+          )}
         </div>
       </footer>
     </div>

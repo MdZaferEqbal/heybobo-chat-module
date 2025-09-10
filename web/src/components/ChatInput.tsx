@@ -3,6 +3,7 @@ import { useRef, useState, type ChangeEvent } from "react";
 
 type ChatInputType = {
   onSend: (param: OnSendParam) => void;
+  socketReady: boolean;
 };
 
 type OnSendParam = {
@@ -17,7 +18,7 @@ type AttachmentType = {
   size: number;
 };
 
-const ChatInput = ({ onSend }: ChatInputType) => {
+const ChatInput = ({ onSend, socketReady }: ChatInputType) => {
   const [value, setValue] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -46,7 +47,8 @@ const ChatInput = ({ onSend }: ChatInputType) => {
       gsap.to(textareaRef.current, {
         backgroundColor: "rgba(229, 31, 31, 0.25)",
         scale: 1.05,
-        repeat: 1,
+        repeat: 3,
+        duration: 0.3,
         yoyo: true,
         onStart: () => {
           if (textareaRef.current) {
@@ -70,7 +72,8 @@ const ChatInput = ({ onSend }: ChatInputType) => {
         backgroundColor: "rgba(229, 31, 31, 0.25)",
         scale: 1.25,
         x: 20,
-        repeat: 1,
+        repeat: 3,
+        duration: 0.3,
         yoyo: true,
         ease: "power1.inOut",
       });
@@ -134,7 +137,12 @@ const ChatInput = ({ onSend }: ChatInputType) => {
         >
           📎
         </button>
-        <button className="primary" onClick={submit} aria-label="Send message">
+        <button
+          className={socketReady ? "primary" : "disabled"}
+          onClick={submit}
+          aria-label="Send message"
+          disabled={!socketReady}
+        >
           Send
         </button>
       </div>
