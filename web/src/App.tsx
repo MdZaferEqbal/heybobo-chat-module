@@ -109,9 +109,9 @@ function App() {
         role="list"
         aria-label="chat history"
       >
-        {messages.map((m) => (
+        {messages.map((m, index) => (
           <Message
-            key={m.streamId}
+            key={index}
             role={m.role}
             content={m.content}
             attachments={m.attachments}
