@@ -32,6 +32,11 @@ npm i
 npm run dev
 ```
 
-**Assumptions or trade-offs:** I’m assuming user input requires conversion into Markdown with code snippet formatting.
+**Assumptions or trade-offs:**
 
-**Potential places for optimisation:** A small glitch appears sometimes when handling lengthy messages.
+- I’m assuming user input requires conversion into Markdown with code snippet formatting.
+
+**Potential places for optimisation:**
+
+- A small glitch appears sometimes when handling lengthy messages.
+- The chat input UI could be refined—currently, attaching files causes the textarea to shift upward.
