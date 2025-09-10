@@ -31,7 +31,7 @@ export default function Message({
           {new Date(createdAt).toLocaleTimeString()}
         </div>
         {role === "user" ? (
-          content || ""
+          <article className="user-article">{content || ""}</article>
         ) : (
           <MarkdownRenderer>{content || ""}</MarkdownRenderer>
         )}
